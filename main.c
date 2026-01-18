@@ -1,18 +1,3 @@
-// Copyright (c) Localhost Networks
-// All rights reserved
-//
-// This software is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License version 2 as
-// published by the Free Software Foundation. For the terms of this
-// license, see http://www.gnu.org/licenses/
-//
-// You are free to use this software under the terms of the GNU General
-// Public License, but WITHOUT ANY WARRANTY; without even the implied
-// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-// See the GNU General Public License for more details.
-//
-// SPDX-License-Identifier: GPL-2.0-only
-
 #include <stdlib.h>
 #include <string.h>
 #include "mongoose.h"
@@ -25,10 +10,9 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
   struct mg_http_message *hm = (struct mg_http_message *) ev_data;
 
   if (mg_http_match_uri(hm, "/static/#")) {
-    struct mg_http_serve_opts opts;
-    memset(&opts, 0, sizeof(opts));
-
-    opts.root_dir = ".";
+    struct mg_http_serve_opts opts = {
+      .root_dir = ".";
+    };
 
     mg_http_serve_dir(c, hm, &opts);
     return;
